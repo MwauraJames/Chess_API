@@ -2,18 +2,21 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install system dependencies first (faster)
+# Install system dependencies for OpenCV
 RUN apt-get update && apt-get install -y \
-    libsm6 libxext6 libxrender-dev \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first (Docker caches this layer)
+# Copy requirements
 COPY requirements.txt .
 
-# Install Python packages with timeout
+# Install packages
 RUN pip install --no-cache-dir --default-timeout=1000 -r requirements.txt
 
-# Copy code after (doesn't invalidate pip cache)
+# Copy code
 COPY main.py .
 COPY model.py .
 COPY best.pt .
