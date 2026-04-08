@@ -1,0 +1,8 @@
+__pycache__
+.git
+.env
+.vscode
+*.pyc
+node_modules
+.DS_Store
+runs/
